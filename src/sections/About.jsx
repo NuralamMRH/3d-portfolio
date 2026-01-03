@@ -291,8 +291,8 @@ const About = () => {
         {/* Grid 1 */}
         <div className="flex items-end grid-default-color grid-1">
           <img
-            src="assets/coding-pov.png"
-            className="absolute scale-[1.75] -right-[5rem] -top-[1rem] md:scale-[3] md:left-50 md:inset-y-10 lg:scale-[2.5]"
+            src="assets/rana.jpeg"
+            className="absolute scale-[1.4] -right-[5rem] -top-[0rem] md:scale-[3] md:left-50 md:inset-y-70 lg:scale-[1.8]"
           />
           <div className="z-10">
             <p className="headtext">Hi, I&apos;m Nuralam Mrh</p>
