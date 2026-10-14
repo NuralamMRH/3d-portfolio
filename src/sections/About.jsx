@@ -352,7 +352,7 @@ const About = () => {
               image="assets/logos/blazor-pink.png"
               containerRef={grid2Container}
             />
-            {tools.map((tool, index) => (
+            {/* {tools.map((tool, index) => (
               <Card
                 key={index}
                 image={tool.image}
@@ -363,7 +363,7 @@ const About = () => {
                   left: `${5 + (index % 10) * 9}%`,
                 }}
               />
-            ))}
+            ))} */}
           </div>
         </div>
         {/* Grid 3 */}
