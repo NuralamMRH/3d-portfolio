@@ -66,6 +66,25 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
   };
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Guard: WebGL may be unavailable in some browsers (e.g. Chrome with
+    // hardware acceleration disabled, GPU blocklisted, or privacy extensions
+    // stripping canvas/WebGL). Without this, `cobe` throws and can break the
+    // rest of the page render.
+    const gl =
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl");
+    if (!gl) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          "[Globe] WebGL is unavailable in this browser — skipping globe."
+        );
+      }
+      return;
+    }
+
     const onResize = () => {
       if (canvasRef.current) {
         width = canvasRef.current.offsetWidth;
@@ -75,21 +94,31 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
     window.addEventListener("resize", onResize);
     onResize();
 
-    const globe = createGlobe(canvasRef.current, {
-      ...config,
-      width: width * 2,
-      height: width * 2,
-      onRender: (state) => {
-        if (!pointerInteracting.current) phi += 0.005;
-        state.phi = phi + rs.get();
-        state.width = width * 2;
-        state.height = width * 2;
-      },
-    });
+    let globe;
+    try {
+      globe = createGlobe(canvas, {
+        ...config,
+        width: width * 2,
+        height: width * 2,
+        onRender: (state) => {
+          if (!pointerInteracting.current) phi += 0.005;
+          state.phi = phi + rs.get();
+          state.width = width * 2;
+          state.height = width * 2;
+        },
+      });
+    } catch (err) {
+      console.error("[Globe] Failed to initialize globe:", err);
+      window.removeEventListener("resize", onResize);
+      return;
+    }
 
-    setTimeout(() => (canvasRef.current.style.opacity = "1"), 0);
+    setTimeout(() => {
+      if (canvasRef.current) canvasRef.current.style.opacity = "1";
+    }, 0);
+
     return () => {
-      globe.destroy();
+      if (globe) globe.destroy();
       window.removeEventListener("resize", onResize);
     };
   }, [rs, config]);
