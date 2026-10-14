@@ -32,7 +32,10 @@ const Hero = () => {
   const [webglSupported] = useState(() => isWebGLSupported());
 
   return (
-    <section className="flex items-start justify-center min-h-screen overflow-hidden md:items-start md:justify-start c-space">
+    <section
+      id="home"
+      className="flex items-start justify-center min-h-screen overflow-hidden md:items-start md:justify-start c-space"
+    >
       <HeroText />
       <ParallaxBackground />
       {webglSupported && (

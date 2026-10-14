@@ -23,35 +23,92 @@ export const Timeline = ({ data }) => {
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <div className="c-space section-spacing" ref={containerRef}>
-      <h2 className="text-heading">My Work Experience</h2>
+    <div className="c-space section-spacing" ref={containerRef} id="experience">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-heading">Work Experience</h2>
+        <p className="subtext">
+          5+ years delivering full-stack solutions, mobile apps, and enterprise systems for international clients across Singapore, Vietnam, the United States, and Bangladesh.
+        </p>
+      </div>
       <div ref={ref} className="relative pb-20">
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex justify-start pt-10 md:pt-40 md:gap-10"
+            className="flex justify-start pt-10 md:pt-28 md:gap-8"
           >
-            <div className="sticky z-40 flex flex-col items-center self-start max-w-xs md:flex-row top-40 lg:max-w-sm md:w-full">
-              <div className="absolute flex items-center justify-center w-10 h-10 rounded-full -left-[15px] bg-midnight">
-                <div className="w-4 h-4 p-2 border rounded-full bg-neutral-800 border-neutral-700" />
+            <div className="sticky z-40 flex flex-col items-center self-start max-w-xs md:flex-row top-36 lg:max-w-sm md:w-full">
+              <div className="absolute flex items-center justify-center w-10 h-10 rounded-full -left-[15px] bg-midnight shadow-lg border border-white/10">
+                <div className="w-3.5 h-3.5 rounded-full bg-lavender/80 shadow-[0_0_10px_#7a57db]" />
               </div>
-              <div className="flex-col hidden gap-2 text-xl font-bold md:flex md:pl-20 md:text-4xl text-neutral-300">
-                <h3>{item.date}</h3>
-                <h3 className="text-3xl text-neutral-400">{item.title}</h3>
-                <h3 className="text-3xl text-neutral-500">{item.job}</h3>
+              <div className="flex-col hidden gap-1.5 md:flex md:pl-16 text-neutral-300">
+                <span className="text-sm font-semibold tracking-wide uppercase text-lavender">
+                  {item.date}
+                </span>
+                <h3 className="text-xl lg:text-2xl font-bold text-white leading-snug">
+                  {item.title}
+                </h3>
+                <h4 className="text-base font-medium text-neutral-400">
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-lavender transition-colors inline-flex items-center gap-1"
+                    >
+                      {item.job}
+                      <img src="assets/arrow-up.svg" className="w-3.5 h-3.5 inline opacity-70" alt="external link" />
+                    </a>
+                  ) : (
+                    item.job
+                  )}
+                </h4>
+                {item.location && (
+                  <p className="text-xs text-neutral-400 flex items-center gap-1 mt-0.5">
+                    📍 {item.location}
+                  </p>
+                )}
               </div>
             </div>
 
-            <div className="relative w-full pl-20 pr-4 md:pl-4">
-              <div className="block mb-4 text-2xl font-bold text-left text-neutral-300 md:hidden ">
-                <h3>{item.date}</h3>
-                <h3>{item.job}</h3>
+            <div className="relative w-full pl-16 pr-4 md:pl-4">
+              <div className="block mb-4 text-left md:hidden">
+                <span className="text-xs font-semibold uppercase text-lavender tracking-wider">
+                  {item.date}
+                </span>
+                <h3 className="text-lg font-bold text-white mt-1">
+                  {item.title}
+                </h3>
+                <h4 className="text-sm font-medium text-neutral-300">
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lavender hover:underline"
+                    >
+                      {item.job}
+                    </a>
+                  ) : (
+                    item.job
+                  )}
+                </h4>
+                {item.location && (
+                  <p className="text-xs text-neutral-400 mt-0.5">
+                    📍 {item.location}
+                  </p>
+                )}
               </div>
-              {item.contents.map((content, index) => (
-                <p className="mb-3 font-normal text-neutral-400" key={index}>
-                  {content}
-                </p>
-              ))}
+              <ul className="space-y-3">
+                {item.contents.map((content, idx) => (
+                  <li
+                    className="flex items-start gap-2.5 font-normal text-sm md:text-base text-neutral-300 leading-relaxed"
+                    key={idx}
+                  >
+                    <span className="text-lavender text-sm mt-1">▹</span>
+                    <span>{content}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         ))}
